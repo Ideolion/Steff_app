@@ -12,15 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ashram_app">
-
+        <activity android:name=".AddYoutubeVideo.AddYoutubeVideo"></activity>
         <activity android:name=".AddVideo.AddVideoActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Ashram_app.NoActionBar" />
-
-               <activity
+        <activity
             android:name=".Log_email_password"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Ashram_app.NoActionBar" />
@@ -47,10 +46,7 @@
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
-
-
-            />
+            android:label="@string/app_name" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
