@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="ExtraText">
+<!--    <item-->
+<!--        android:id="@+id/action_settings"-->
+<!--        android:orderInCategory="100"-->
+<!--        android:title="@string/action_settings"-->
+<!--        app:showAsAction="never" />-->
+    <item
+        android:id="@+id/action_addVideo"
+        android:onClick="onClickAddVideo"
+        android:orderInCategory="110"
+        android:title="@string/addVideo"
+        android:visible="false"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_quit"
+        android:onClick="onClickQuite"
+        android:orderInCategory="200"
+        android:title="@string/action_quit"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/search_firebase"
+        android:icon="@drawable/ic_baseline_search_24"
+        app:showAsAction="always"
+        android:title="Search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
+
+</menu>
