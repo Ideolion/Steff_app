@@ -14,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.ashram_app.AddVideo.AddVideoActivity;
+import com.example.ashram_app.AddYoutubeVideo.AddYoutubeVideo;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,7 +24,7 @@ import static com.example.ashram_app.Value.admin1UID;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    private MenuItem action_addVideo;
+    private MenuItem action_addVideo, addVideoYoutube;
     private MenuItem search;
 
 
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         search = menu.findItem(R.id.search_firebase);
         action_addVideo = menu.findItem(R.id.action_addVideo);
+        addVideoYoutube = menu.findItem(R.id.addVideoYoutube);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userid=user.getUid();
 
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(userid.equals(admin1UID)){
         action_addVideo.setVisible(true);
+            addVideoYoutube.setVisible(true);
 
         }
 
@@ -110,7 +113,11 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(MainActivity.this, AddVideoActivity.class);
         startActivity(i);
         //finish();
-
-
     }
+    public void onClickAddVideoYoutube(MenuItem item) {
+        Intent i = new Intent(MainActivity.this, AddYoutubeVideo.class);
+        startActivity(i);
+        //finish();
+    }
+
 }

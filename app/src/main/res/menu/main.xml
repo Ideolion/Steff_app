@@ -3,11 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="ExtraText">
-<!--    <item-->
-<!--        android:id="@+id/action_settings"-->
-<!--        android:orderInCategory="100"-->
-<!--        android:title="@string/action_settings"-->
-<!--        app:showAsAction="never" />-->
+    <item
+        android:id="@+id/addVideoYoutube"
+        android:onClick="onClickAddVideoYoutube"
+        android:orderInCategory="100"
+        android:title="Добавить видео Youtube"
+        android:visible="false"
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_addVideo"
         android:onClick="onClickAddVideo"
