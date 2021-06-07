@@ -128,6 +128,8 @@
     <string name="back">back</string>
     <string name="VideoName">Название видео</string>
     <string name="audio_name">audio name</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Избранное аудио</string>
 
 
 </resources>
