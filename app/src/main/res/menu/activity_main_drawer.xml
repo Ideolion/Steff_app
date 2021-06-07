@@ -19,12 +19,25 @@
     </group>
     <group android:id="@+id/other">
         <item
-            android:id="@+id/mm_4"
-            android:icon="@drawable/lotos"
-            android:title="Еще пункт" />
+            android:id="@+id/favoriteVideo"
+            android:icon="@drawable/tsig"
+            android:title="Избранное видео" />
         <item
-            android:id="@+id/mm_5"
+            android:id="@+id/favoriteAudio"
             android:icon="@drawable/lotos"
-            android:title="И еще пункт" />
+            android:title="Избранное аудио" />
     </group>
+
+    <group android:id="@+id/andOther">
+        <item
+            android:id="@+id/mm_6"
+
+            android:title="Instagram" />
+        <item
+            android:id="@+id/mm_7"
+
+            android:title="WhatsApp" />
+    </group>
+
+
 </menu>
