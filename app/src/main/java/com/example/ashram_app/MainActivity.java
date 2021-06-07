@@ -67,16 +67,7 @@ public class MainActivity extends AppCompatActivity {
         String userid=user.getUid();
 
 
-      //  Fragment f = getFragmentManager().findFragmentById(R.id.nav_home);
-
-//        if (i!=1){
-//
-//            search.setVisible(false);
-//
-//        }
-
-
-        if(userid.equals(admin1UID)){
+             if(userid.equals(admin1UID)){
         action_addVideo.setVisible(true);
             addVideoYoutube.setVisible(true);
 
@@ -120,4 +111,9 @@ public class MainActivity extends AppCompatActivity {
         //finish();
     }
 
+    public void Instagram(MenuItem item) {
+    }
+
+    public void WhatsApp(MenuItem item) {
+    }
 }
