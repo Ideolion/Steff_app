@@ -1,9 +1,11 @@
 package com.example.ashram_app;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -112,8 +114,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Instagram(MenuItem item) {
-    }
+        Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.instagram.android");
+        if (launchIntent != null) {
+            try {
+                startActivity(launchIntent);
+            } catch (ActivityNotFoundException ex)
+            {
+                Toast.makeText(MainActivity.this, "Инстаграммы тут неть", Toast.LENGTH_SHORT).show();
 
+            }
+
+
+        }
+    }
     public void WhatsApp(MenuItem item) {
     }
 }
