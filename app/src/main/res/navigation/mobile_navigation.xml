@@ -22,4 +22,14 @@
         android:name="com.example.ashram_app.ui.meditation.MeditationFragment"
         android:label="Аудио практики"
         tools:layout="@layout/fragment_meditation" />
+    <fragment
+        android:id="@+id/favoriteVideo"
+        android:name="com.example.ashram_app.ui.favoriteVideo.FavoriteVideo"
+        android:label="fragment_favorite_video"
+        tools:layout="@layout/fragment_favorite_video" />
+    <fragment
+        android:id="@+id/favoriteAudio"
+        android:name="com.example.ashram_app.ui.favoriteAudio.FavoriteAudio"
+        android:label="fragment_favorite_audio"
+        tools:layout="@layout/fragment_favorite_audio" />
 </navigation>

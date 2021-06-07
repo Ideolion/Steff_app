@@ -9,7 +9,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.ashram_app.AddVideo.AddVideoActivity;
 import com.example.ashram_app.MainActivity;
 import com.example.ashram_app.R;
 import com.example.ashram_app.ui.home.DataSetList;
@@ -45,6 +44,8 @@ public class AddYoutubeVideo extends AppCompatActivity {
         URL = YoutubeURL.getText().toString();
         DataSetList dataSetList = new DataSetList(URL);
 
+
+       // https://youtu.be/mdd27VwuWQ0
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("YoutubeLink")
                 .add(dataSetList)
