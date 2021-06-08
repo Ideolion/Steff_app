@@ -7,30 +7,31 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ashram_app.R;
 import com.example.jean.jcplayer.model.JcAudio;
 import com.example.jean.jcplayer.view.JcPlayerView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.example.ashram_app.Value.admin1UID;
 
@@ -40,16 +41,13 @@ public class MeditationFragment extends Fragment {
     RecyclerView recyclerView;
     FirebaseFirestore db;
     ProgressBar progressBar;
-    boolean checkin = false;
-    List<AudioProperties> mupload;
-    Audio_Adapter adapter;
-    ValueEventListener valueEventListener;
+    ListView listView;
+
+    ArrayList<String> arrayListSongsName = new ArrayList<>();
+    ArrayList<String> arrayListSongsUrl = new ArrayList<>();
+    ArrayAdapter<String> arrayAdapter;
     JcPlayerView jcPlayerView;
     ArrayList<JcAudio> jcAudios = new ArrayList<>();
-    private int currentIndex;
-  //  Query query;
-    DatabaseReference databaseReference;
-
 
 
 
@@ -57,70 +55,55 @@ public class MeditationFragment extends Fragment {
         super(R.layout.fragment_meditation);
     }
 
+
+
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
 
         View view = inflater.inflate(R.layout.fragment_meditation, container, false);
 
-        recyclerView = view.findViewById(R.id.recyclerview_Audio);
-        progressBar = view.findViewById(R.id.progressBarrAudio);
+        listView = view.findViewById(R.id.myListView);
+
         jcPlayerView = view.findViewById(R.id.jcplayer);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        mupload = new ArrayList<>();
-        recyclerView.setAdapter(adapter);
-        adapter = new Audio_Adapter(getActivity().getApplication(), mupload, new Audio_Adapter.RecyclerListener() {
+
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        CollectionReference questionsRef = rootRef.collection("Audio");
+        questionsRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onClickListener(AudioProperties audio, int position) {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    for (DocumentSnapshot document : task.getResult()) {
+                        AudioProperties songObj = document.toObject(AudioProperties.class);
+                        arrayListSongsName.add(songObj.getAudioName());
+                        arrayListSongsUrl.add(songObj.getAudioURL());
+                        jcAudios.add(JcAudio.createFromURL(songObj.getAudioName(),songObj.getAudioURL()));
+                    }
+                    arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,arrayListSongsName);
+                    listView.setAdapter(arrayAdapter);
+                    jcPlayerView.initPlaylist(jcAudios,null);
+                }else {
+                    Toast.makeText(getActivity(), "Ошибка загрузки данных", Toast.LENGTH_SHORT).show();
+
+                }
+
+
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 jcPlayerView.playAudio(jcAudios.get(position));
                 jcPlayerView.setVisibility(View.VISIBLE);
                 jcPlayerView.createNotification();
-
             }
         });
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("Audio");
-
-
-        valueEventListener = databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                mupload.clear();
-                for(DataSnapshot dss: snapshot.getChildren()){
-                    AudioProperties audioProperties = dss.getValue(AudioProperties.class);
-                    audioProperties.setmKey(dss.getKey());
-                    currentIndex = 0;
-                    final String s = getActivity().getIntent().getExtras().getString("");
-
-
-                }
-                adapter.setSelectedPosition(0);
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
-                if(checkin){
-                    jcPlayerView.initPlaylist(jcAudios,null);
-
-                }else{
-                    Toast.makeText(getContext(),"Нет аудио для воспроизведения", Toast.LENGTH_SHORT).show();
-                }
-
-
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-                progressBar.setVisibility(View.GONE);
-
-            }
-        });
-
 
         return view;
-
     }
 
     @Override
@@ -139,9 +122,6 @@ public class MeditationFragment extends Fragment {
 
 
     }
-
-
-
 
 
 
