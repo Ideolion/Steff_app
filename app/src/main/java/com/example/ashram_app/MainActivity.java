@@ -2,6 +2,7 @@ package com.example.ashram_app;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -128,5 +129,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void WhatsApp(MenuItem item) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("http://instagram.com/_u/" + "sergey_stefanovskii"));
+            intent.setPackage("com.instagram.android");
+            startActivity(intent);
+        }
+        catch (android.content.ActivityNotFoundException e)
+        {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://www.instagram.com/" + "sergey_stefanovskii")));
+        }
+
+
+
     }
 }
