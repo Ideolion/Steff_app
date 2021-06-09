@@ -119,8 +119,6 @@ public class MeditationFragment extends Fragment {
 
         }
         super.onCreateOptionsMenu(menu, inflater);
-
-
     }
 
 
