@@ -33,16 +33,17 @@ public class ViewHolder extends RecyclerView.ViewHolder {
 
         super(itemView);
 
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
+
+
 
         itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                mClickListener.OnItemLongClick(view,getAdapterPosition());
+
+
+
                 return false;
             }
         });
@@ -85,8 +86,6 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     private ViewHolder.ClickListener mClickListener;
 
     public interface ClickListener {
-        void OnItemClick(View view, int position);
-
         void OnItemLongClick(View view, int position);
 
 

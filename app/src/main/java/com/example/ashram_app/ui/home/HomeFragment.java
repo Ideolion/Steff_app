@@ -72,6 +72,10 @@ public class HomeFragment extends Fragment {
                         }
                     }
                 });
+
+
+
+
         return view;
     }
 
@@ -94,4 +98,11 @@ public class HomeFragment extends Fragment {
     }
 
 
+
+
+//    public void showDeleteDialogYoutube() {
+//
+//        Toast.makeText(getActivity().getApplication(), "длинный ютуб", Toast.LENGTH_SHORT).show();
+//
+//    }
 }
