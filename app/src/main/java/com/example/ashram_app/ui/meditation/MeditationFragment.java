@@ -67,7 +67,6 @@ public class MeditationFragment extends Fragment {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_meditation, container, false);
         listView = view.findViewById(R.id.myListView);
-        imageView = view.findViewById(R.id.ivPlayAudio);
         jcPlayerView = view.findViewById(R.id.jcplayer);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference dbRef = db.collection("Audio");
