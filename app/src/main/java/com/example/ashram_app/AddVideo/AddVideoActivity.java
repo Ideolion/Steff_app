@@ -68,7 +68,6 @@ public class AddVideoActivity extends AppCompatActivity {
 
         progressBar = findViewById(R.id.progressBar_main);
         editText = findViewById(R.id.et_video_name);
-        editTextClass = findViewById(R.id.et_video_class);
         mediaController = new MediaController(this);
         videoView.setMediaController(mediaController);
         videoView.start();
@@ -116,7 +115,6 @@ public class AddVideoActivity extends AppCompatActivity {
 
         String videoName = editText.getText().toString();
         String  search = editText.getText().toString().toLowerCase();
-        String videoClass = editTextClass.getText().toString();
         if (videoUri != null || !TextUtils.isEmpty(videoName)){
 
             progressBar.setVisibility(View.VISIBLE);
@@ -144,7 +142,6 @@ public class AddVideoActivity extends AppCompatActivity {
                                 videoProperties.setName(videoName);
                                 videoProperties.setVideourl(downloadUrl.toString());
                                 videoProperties.setSearch(search);
-                                videoProperties.setVideoClass(videoClass);
 
                                 db.collection("Video")
                                         .add(videoProperties)

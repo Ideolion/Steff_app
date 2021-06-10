@@ -104,9 +104,7 @@ public class MeditationFragment extends Fragment {
                 String name = jcAudios.get(pos).getTitle().toString();
                 String URL = jcAudios.get(pos).getPath().toString();
                 showDeleteDialogAudio(name, URL);
-//                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-//                System.out.println(URL);
-//                Toast.makeText(getActivity(), "длинный клик по аудио", Toast.LENGTH_SHORT).show();
+
                 return true;
             }
         });

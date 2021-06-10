@@ -28,22 +28,16 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     PlayerView playerView;
     ImageView fullscreenButton;
     boolean fullscreen = false;
+    private ViewHolder.ClickListener mClickListener;
 
     public ViewHolder(View itemView) {
 
         super(itemView);
 
-
-
-
-
         itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 mClickListener.OnItemLongClick(view,getAdapterPosition());
-
-
-
                 return false;
             }
         });
@@ -58,44 +52,29 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         textView.setText(name);
         try {
             BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter.Builder(application).build();
-
             TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
-
-
             exoPlayer = ExoPlayerFactory.newSimpleInstance(application);
-
             Uri video = Uri.parse(videourl);
             DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("video");
             ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
             MediaSource mediaSource = new ExtractorMediaSource(video, dataSourceFactory, extractorsFactory, null, null);
             playerView.setPlayer(exoPlayer);
             exoPlayer.prepare(mediaSource);
-
             exoPlayer.setPlayWhenReady(false);
-
             fullscreenButton = itemView.findViewById(R.id.exo_fullscreen_icon);
-
         } catch (Exception e) {
-
         }
-
-
     }
 
 
-    private ViewHolder.ClickListener mClickListener;
 
     public interface ClickListener {
         void OnItemLongClick(View view, int position);
-
-
     }
 
     public void SetOnClickListener(ViewHolder.ClickListener clickListener) {
         mClickListener = clickListener;
-
     }
-
 }
 
 
