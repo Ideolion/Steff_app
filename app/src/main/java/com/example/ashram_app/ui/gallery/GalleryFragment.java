@@ -117,7 +117,6 @@ public class GalleryFragment extends Fragment {
                 final String[] docID = new String[1];
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-
                 db.collection("Video").whereEqualTo("name", name)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
