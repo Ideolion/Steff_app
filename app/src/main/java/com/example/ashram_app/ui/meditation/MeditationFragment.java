@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -43,8 +44,7 @@ import java.util.ArrayList;
 import static com.example.ashram_app.Value.admin1UID;
 
 public class MeditationFragment extends Fragment {
-    private MenuItem action_addVideo;
-    private MenuItem search;
+    private MenuItem action_addVideo,search;
     RecyclerView recyclerView;
     FirebaseFirestore db;
     ProgressBar progressBar;
@@ -55,7 +55,7 @@ public class MeditationFragment extends Fragment {
     ArrayAdapter<String> arrayAdapter;
     JcPlayerView jcPlayerView;
     ArrayList<JcAudio> jcAudios = new ArrayList<>();
-
+    ImageView imageView;
 
     public MeditationFragment() {
         super(R.layout.fragment_meditation);
@@ -65,20 +65,16 @@ public class MeditationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-
         View view = inflater.inflate(R.layout.fragment_meditation, container, false);
-
         listView = view.findViewById(R.id.myListView);
-
+        imageView = view.findViewById(R.id.ivPlayAudio);
         jcPlayerView = view.findViewById(R.id.jcplayer);
-
-        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
-        CollectionReference questionsRef = rootRef.collection("Audio");
-        questionsRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference dbRef = db.collection("Audio");
+        dbRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-
                     for (DocumentSnapshot document : task.getResult()) {
                         AudioProperties songObj = document.toObject(AudioProperties.class);
                         arrayListSongsName.add(songObj.getAudioName());
@@ -90,16 +86,12 @@ public class MeditationFragment extends Fragment {
                     jcPlayerView.initPlaylist(jcAudios, null);
                 } else {
                     Toast.makeText(getActivity(), "Ошибка загрузки данных", Toast.LENGTH_SHORT).show();
-
                 }
-
-
             }
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 jcPlayerView.playAudio(jcAudios.get(position));
                 jcPlayerView.setVisibility(View.VISIBLE);
                 jcPlayerView.createNotification();
@@ -110,8 +102,6 @@ public class MeditationFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int pos, long id) {
-
-
                 String name = jcAudios.get(pos).getTitle().toString();
                 String URL = jcAudios.get(pos).getPath().toString();
                 showDeleteDialogAudio(name, URL);
@@ -121,10 +111,8 @@ public class MeditationFragment extends Fragment {
                 return true;
             }
         });
-
         return view;
     }
-
 
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
@@ -136,24 +124,19 @@ public class MeditationFragment extends Fragment {
         String userid = user.getUid();
         if (userid.equals(admin1UID)) {
             action_addVideo.setVisible(true);
-
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     private void showDeleteDialogAudio(String name, String URL) {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
         builder.setTitle("Удалить аудио запись");
         builder.setMessage("Вы уверены что хотите удалить эту аудио запись");
         builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 final String[] docID = new String[1];
-
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-
                 db.collection("Audio").whereEqualTo("audioName", name)
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -162,11 +145,8 @@ public class MeditationFragment extends Fragment {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         docID[0] = document.getId();
-
                                     }
-
                                     Toast.makeText(getActivity(), docID[0].toString(), Toast.LENGTH_SHORT).show();
-
                                     db.collection("Audio").document(docID[0].toString())
                                             .delete()
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -181,7 +161,6 @@ public class MeditationFragment extends Fragment {
                                                     Toast.makeText(getActivity(), "Не удалось удалить аудио", Toast.LENGTH_SHORT).show();
                                                 }
                                             });
-
                                 } else {
                                     Toast.makeText(getActivity(), "Документ не существует в базе", Toast.LENGTH_SHORT).show();
                                 }
@@ -191,13 +170,11 @@ public class MeditationFragment extends Fragment {
                 storageReference.delete();
             }
         });
-
         builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int i) {
                 dialog.cancel();
             }
         });
-
         AlertDialog alertDialog = builder.create();
         builder.show();
 
