@@ -15,19 +15,14 @@ import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.BandwidthMeter;
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 
 public class ViewHolder extends RecyclerView.ViewHolder {
     SimpleExoPlayer exoPlayer;
     PlayerView playerView;
     ImageView fullscreenButton;
-    boolean fullscreen = false;
+
     private ViewHolder.ClickListener mClickListener;
 
     public ViewHolder(View itemView) {
@@ -46,8 +41,8 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         playerView = itemView.findViewById(R.id.exoplayer_item);
         textView.setText(name);
         try {
-            BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter.Builder(application).build();
-            TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
+         //   BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter.Builder(application).build();
+          //  TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
             exoPlayer = ExoPlayerFactory.newSimpleInstance(application);
             Uri video = Uri.parse(videourl);
             DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("video");
@@ -58,6 +53,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
             exoPlayer.setPlayWhenReady(false);
             fullscreenButton = itemView.findViewById(R.id.exo_fullscreen_icon);
         } catch (Exception e) {
+
         }
     }
 
