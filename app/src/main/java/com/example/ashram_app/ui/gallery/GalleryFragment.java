@@ -31,8 +31,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -110,7 +108,7 @@ public class GalleryFragment extends Fragment {
                         if (userid.equals(admin1UID)) {
                             showDeleteDialog(name, URL);
                         } else {
-                            AddFavoriteVideo(name, userid);
+                            AddFavoriteVideo(name, URL, userid);
                         }
 
 
@@ -215,7 +213,7 @@ public class GalleryFragment extends Fragment {
     }
 
 
-    public void AddFavoriteVideo(String name, String userid) {
+    public void AddFavoriteVideo(String name, String URL, String userid) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Добавить в избранное");
@@ -225,48 +223,39 @@ public class GalleryFragment extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 String[] videoID = new String[1];
-                db.collection("Video").whereEqualTo("name", name)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        videoID[0] = document.getId();
-                                    }
 
-                                    Map<String, Object> VideoFav = new HashMap<>();
-                                    VideoFav.put(name, videoID[0].toString());
-                                    db.collection("Favorite").document(userid.toString())
-                                            .collection("VideoFavorite").document()
-                                            .set(VideoFav)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Toast.makeText(getActivity(), "Добавилось)", Toast.LENGTH_SHORT).show();
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(getActivity(), "Не добавилось(", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                } else {
-                                    Toast.makeText(getActivity(), "Документ не существует в базе", Toast.LENGTH_SHORT).show();
-                                }
+                Map<String, Object> VideoFav = new HashMap<>();
+                VideoFav.put("name", name);
+                VideoFav.put("videourl", URL);
+                db.collection("Favorite").document(userid.toString())
+                        .collection("VideoFavorite").document()
+                        .set(VideoFav)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(getActivity(), "Видео добавлено в избранное", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getActivity(), "Видео не добавлено в избранное", Toast.LENGTH_SHORT).show();
                             }
                         });
-            }
+
+                }
         });
-        builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int i) {
+        builder.setNegativeButton("Нет",new DialogInterface.OnClickListener()
+
+            {
+                public void onClick (DialogInterface dialog,int i){
                 dialog.cancel();
             }
-        });
-        final AlertDialog alertDialog = builder.create();
+            });
+
+            final AlertDialog alertDialog = builder.create();
         builder.show();
+        }
+
+
     }
-
-
-}

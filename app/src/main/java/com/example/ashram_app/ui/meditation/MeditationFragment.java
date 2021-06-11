@@ -46,7 +46,7 @@ import java.util.Map;
 import static com.example.ashram_app.Value.admin1UID;
 
 public class MeditationFragment extends Fragment {
-    private MenuItem action_addVideo,search;
+    private MenuItem action_addVideo, search;
     RecyclerView recyclerView;
     FirebaseFirestore db;
     ProgressBar progressBar;
@@ -111,7 +111,7 @@ public class MeditationFragment extends Fragment {
                 if (userid.equals(admin1UID)) {
                     showDeleteDialogAudio(name, URL);
                 } else {
-                    AddFavoriteAudio(userid, name);
+                    AddFavoriteAudio(userid, name, URL);
                 }
 
                 return true;
@@ -125,7 +125,7 @@ public class MeditationFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         search = menu.findItem(R.id.search_firebase);
         search.setVisible(false);
-        }
+    }
 
     private void showDeleteDialogAudio(String name, String URL) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -180,7 +180,7 @@ public class MeditationFragment extends Fragment {
 
     }
 
-    private void AddFavoriteAudio (String userid, String name){
+    private void AddFavoriteAudio(String userid, String name, String URL) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Добавить в избранное");
@@ -189,47 +189,36 @@ public class MeditationFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-                String[] audioID = new String[1];
-                db.collection("Audio").whereEqualTo("audioName", name)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        audioID[0] = document.getId();
-                                    }
-                                    Map<String, Object> AudioFav = new HashMap<>();
-                                    AudioFav.put(name, audioID[0].toString());
-                                    db.collection("Favorite").document(userid.toString())
-                                            .collection("AudioFavorite").document()
-                                            .set(AudioFav)
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Toast.makeText(getActivity(), "Добавилось)", Toast.LENGTH_SHORT).show();
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(getActivity(), "Не добавилось(", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                } else {
-                                    Toast.makeText(getActivity(), "Документ не существует в базе", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                });
-            }
-        });
-        builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int i) {
-                dialog.cancel();
-            }
-        });
-        final AlertDialog alertDialog = builder.create();
-        builder.show();
-    }
 
-    }
+                Map<String, Object> AudioFav = new HashMap<>();
+                AudioFav.put("audioName", name);
+                AudioFav.put("audioURL", URL);
+
+                db.collection("Favorite").document(userid.toString())
+                        .collection("AudioFavorite").document()
+                        .set(AudioFav)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(getActivity(), "Аудио добавлено в избранное", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getActivity(), "Аудио не добавлено в избранное", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+        }
+    });
+                builder.setNegativeButton("Нет",new DialogInterface.OnClickListener(){
+public void onClick(DialogInterface dialog,int i){
+        dialog.cancel();
+        }
+        });
+final AlertDialog alertDialog=builder.create();
+        builder.show();
+        }
+
+        }
