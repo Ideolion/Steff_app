@@ -53,7 +53,7 @@ public class FavoriteVideo extends Fragment {
 
 
         query = FirebaseFirestore.getInstance()
-                .collection("Video").document("DD14zYf0T2SOB4oQYrmiqEVP2Zl1").collection("VideoFavorite");
+                .collection("Favorite").document("DD14zYf0T2SOB4oQYrmiqEVP2Zl1").collection("VideoFavorite");
 
 
         return view;

@@ -71,7 +71,7 @@ public class MeditationFragment extends Fragment {
         listView = view.findViewById(R.id.myListView);
         jcPlayerView = view.findViewById(R.id.jcplayer);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference dbRef = db.collection("Audio");
+        CollectionReference dbRef = db.collection("Favorite").document("DD14zYf0T2SOB4oQYrmiqEVP2Zl1").collection("AudioFavorite");
         dbRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
