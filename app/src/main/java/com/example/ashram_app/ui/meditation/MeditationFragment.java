@@ -40,6 +40,8 @@ import com.google.firebase.storage.StorageReference;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.ashram_app.Value.admin1UID;
 
@@ -103,7 +105,14 @@ public class MeditationFragment extends Fragment {
                                            int pos, long id) {
                 String name = jcAudios.get(pos).getTitle().toString();
                 String URL = jcAudios.get(pos).getPath().toString();
-                showDeleteDialogAudio(name, URL);
+
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String userid = user.getUid();
+                if (userid.equals(admin1UID)) {
+                    showDeleteDialogAudio(name, URL);
+                } else {
+                    AddFavoriteAudio(userid, name);
+                }
 
                 return true;
             }
@@ -115,15 +124,8 @@ public class MeditationFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         search = menu.findItem(R.id.search_firebase);
-        action_addVideo = menu.findItem(R.id.action_addVideo);
         search.setVisible(false);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userid = user.getUid();
-        if (userid.equals(admin1UID)) {
-            action_addVideo.setVisible(true);
         }
-        super.onCreateOptionsMenu(menu, inflater);
-    }
 
     private void showDeleteDialogAudio(String name, String URL) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -178,5 +180,56 @@ public class MeditationFragment extends Fragment {
 
     }
 
+    private void AddFavoriteAudio (String userid, String name){
 
-}
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Добавить в избранное");
+        builder.setMessage("Вы хотите добавить аудио в избранное?");
+        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                String[] audioID = new String[1];
+                db.collection("Audio").whereEqualTo("audioName", name)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        audioID[0] = document.getId();
+                                    }
+                                    Map<String, Object> AudioFav = new HashMap<>();
+                                    AudioFav.put(name, audioID[0].toString());
+                                    db.collection("Favorite").document(userid.toString())
+                                            .collection("AudioFavorite").document()
+                                            .set(AudioFav)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast.makeText(getActivity(), "Добавилось)", Toast.LENGTH_SHORT).show();
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(getActivity(), "Не добавилось(", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                } else {
+                                    Toast.makeText(getActivity(), "Документ не существует в базе", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                });
+            }
+        });
+        builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.cancel();
+            }
+        });
+        final AlertDialog alertDialog = builder.create();
+        builder.show();
+    }
+
+    }

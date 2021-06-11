@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.example.ashram_app.Value.admin1UID;
 
 public class GalleryFragment extends Fragment {
@@ -38,6 +44,7 @@ public class GalleryFragment extends Fragment {
     StorageReference storageReference;
     Query query;
     String name, URL;
+    ImageView imageView;
 
 
     @Override
@@ -49,6 +56,15 @@ public class GalleryFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerview_Gallery);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+//        imageView = view.findViewById(R.id.exo_favorite);
+//        imageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(getActivity(), "Клик по сердечку", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+
 
         query = FirebaseFirestore.getInstance()
                 .collection("Video");
@@ -83,10 +99,7 @@ public class GalleryFragment extends Fragment {
             @Override
             protected void onBindViewHolder(ViewHolder viewHolder, int i, VideoProperties videoProperties) {
 
-
                 viewHolder.setExoplayer(getActivity().getApplication(), videoProperties.getName(), videoProperties.getVideourl());
-
-
                 viewHolder.SetOnClickListener(new ViewHolder.ClickListener() {
                     @Override
                     public void OnItemLongClick(View view, int position) {
@@ -96,15 +109,52 @@ public class GalleryFragment extends Fragment {
                         String userid = user.getUid();
                         if (userid.equals(admin1UID)) {
                             showDeleteDialog(name, URL);
+                        } else {
+                            AddFavoriteVideo(name, userid);
                         }
+
+
                     }
                 });
             }
         };
+
         adapter.startListening();
         recyclerView.setAdapter(adapter);
 
     }
+
+//    @Override
+//    public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//
+//        MenuItem ourSearchItem = menu.findItem(R.id.search_firebase);
+//
+//       // SearchView sv = (SearchView) ourSearchItem.getActionView();
+//
+//        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search_firebase));
+//        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                Toast.makeText(getContext(), query, Toast.LENGTH_SHORT).show();
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//
+//                Toast.makeText(getContext(), newText, Toast.LENGTH_SHORT).show();
+//                return false;
+//
+//            }
+//
+//
+//    });
+//    }
+
 
     private void showDeleteDialog(String name, String URL) {
 
@@ -125,9 +175,9 @@ public class GalleryFragment extends Fragment {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         docID[0] = document.getId();
-                                        Toast.makeText(getActivity(), docID[0].toString(), Toast.LENGTH_SHORT).show();
+                                        //   Toast.makeText(getActivity(), docID[0].toString(), Toast.LENGTH_SHORT).show();
                                     }
-                                    db.collection("Video").document(docID[0].toString())
+                                    db.collection("Video").document(docID[0])
                                             .delete()
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
@@ -163,5 +213,60 @@ public class GalleryFragment extends Fragment {
         builder.show();
 
     }
+
+
+    public void AddFavoriteVideo(String name, String userid) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Добавить в избранное");
+        builder.setMessage("Вы хотите добавить видео в избранное?");
+        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                String[] videoID = new String[1];
+                db.collection("Video").whereEqualTo("name", name)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        videoID[0] = document.getId();
+                                    }
+
+                                    Map<String, Object> VideoFav = new HashMap<>();
+                                    VideoFav.put(name, videoID[0].toString());
+                                    db.collection("Favorite").document(userid.toString())
+                                            .collection("VideoFavorite").document()
+                                            .set(VideoFav)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast.makeText(getActivity(), "Добавилось)", Toast.LENGTH_SHORT).show();
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(getActivity(), "Не добавилось(", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                } else {
+                                    Toast.makeText(getActivity(), "Документ не существует в базе", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
+        builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.cancel();
+            }
+        });
+        final AlertDialog alertDialog = builder.create();
+        builder.show();
+    }
+
 
 }
