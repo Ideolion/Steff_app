@@ -9,7 +9,6 @@ public class VideoProperties {
         this.name = name;
         this.videourl = videourl;
         this.search = search;
-
     }
 
     public VideoProperties() {

@@ -44,59 +44,36 @@ public class GalleryFragment extends Fragment {
     String name, URL;
     ImageView imageView;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gallery, container, false);
-        // Add the following lines to create RecyclerView
         recyclerView = view.findViewById(R.id.recyclerview_Gallery);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-//        imageView = view.findViewById(R.id.exo_favorite);
-//        imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(getActivity(), "Клик по сердечку", Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
-
-
         query = FirebaseFirestore.getInstance()
                 .collection("Video");
-
-
         return view;
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
-
         FirestoreRecyclerOptions<VideoProperties> response = new FirestoreRecyclerOptions.Builder<VideoProperties>()
                 .setQuery(query, VideoProperties.class)
                 .build();
-
-
         FirestoreRecyclerAdapter<VideoProperties, ViewHolder> adapter = new FirestoreRecyclerAdapter
                 <VideoProperties, ViewHolder>(response) {
-
             @NonNull
+
             @Override
             public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.video_item, parent, false);
                 return new ViewHolder(view);
-
             }
 
             @Override
             protected void onBindViewHolder(ViewHolder viewHolder, int i, VideoProperties videoProperties) {
-
                 viewHolder.setExoplayer(getActivity().getApplication(), videoProperties.getName(), videoProperties.getVideourl());
                 viewHolder.SetOnClickListener(new ViewHolder.ClickListener() {
                     @Override
@@ -110,52 +87,15 @@ public class GalleryFragment extends Fragment {
                         } else {
                             AddFavoriteVideo(name, URL, userid);
                         }
-
-
                     }
                 });
             }
         };
-
         adapter.startListening();
         recyclerView.setAdapter(adapter);
-
     }
 
-//    @Override
-//    public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//
-//        MenuItem ourSearchItem = menu.findItem(R.id.search_firebase);
-//
-//       // SearchView sv = (SearchView) ourSearchItem.getActionView();
-//
-//        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search_firebase));
-//        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                Toast.makeText(getContext(), query, Toast.LENGTH_SHORT).show();
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//
-//                Toast.makeText(getContext(), newText, Toast.LENGTH_SHORT).show();
-//                return false;
-//
-//            }
-//
-//
-//    });
-//    }
-
-
     private void showDeleteDialog(String name, String URL) {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Удалить видео");
         builder.setMessage("Вы уверены что хотите удалить это видео");
@@ -189,16 +129,13 @@ public class GalleryFragment extends Fragment {
                                                     Toast.makeText(getActivity(), "Не удалось удалить видео", Toast.LENGTH_SHORT).show();
                                                 }
                                             });
-
                                 } else {
                                     Toast.makeText(getActivity(), "Документ не существует в базе", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
-
                 storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(URL);
                 storageReference.delete();
-
             }
         });
         builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
@@ -206,15 +143,11 @@ public class GalleryFragment extends Fragment {
                 dialog.cancel();
             }
         });
-
         AlertDialog alertDialog = builder.create();
         builder.show();
-
     }
 
-
     public void AddFavoriteVideo(String name, String URL, String userid) {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Добавить в избранное");
         builder.setMessage("Вы хотите добавить видео в избранное?");
@@ -223,7 +156,6 @@ public class GalleryFragment extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 String[] videoID = new String[1];
-
                 Map<String, Object> VideoFav = new HashMap<>();
                 VideoFav.put("name", name);
                 VideoFav.put("videourl", URL);
@@ -242,20 +174,14 @@ public class GalleryFragment extends Fragment {
                                 Toast.makeText(getActivity(), "Видео не добавлено в избранное", Toast.LENGTH_SHORT).show();
                             }
                         });
-
-                }
+            }
         });
-        builder.setNegativeButton("Нет",new DialogInterface.OnClickListener()
-
-            {
-                public void onClick (DialogInterface dialog,int i){
+        builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int i) {
                 dialog.cancel();
             }
-            });
-
-            final AlertDialog alertDialog = builder.create();
+        });
+        final AlertDialog alertDialog = builder.create();
         builder.show();
-        }
-
-
     }
+}

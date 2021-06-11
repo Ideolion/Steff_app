@@ -31,9 +31,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     private ViewHolder.ClickListener mClickListener;
 
     public ViewHolder(View itemView) {
-
         super(itemView);
-
         itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -41,14 +39,11 @@ public class ViewHolder extends RecyclerView.ViewHolder {
                 return false;
             }
         });
-
     }
-
 
     public void setExoplayer(Application application, String name, String videourl) {
         TextView textView = itemView.findViewById(R.id.fb_video_name);
         playerView = itemView.findViewById(R.id.exoplayer_item);
-
         textView.setText(name);
         try {
             BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter.Builder(application).build();
@@ -65,8 +60,6 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         } catch (Exception e) {
         }
     }
-
-
 
     public interface ClickListener {
         void OnItemLongClick(View view, int position);
