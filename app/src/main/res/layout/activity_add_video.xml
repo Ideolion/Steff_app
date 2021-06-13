@@ -9,6 +9,8 @@
     tools:context=".AddVideo.AddVideoActivity">
 
 
+
+
     <VideoView
         android:id="@+id/videoview_main"
         android:layout_width="match_parent"

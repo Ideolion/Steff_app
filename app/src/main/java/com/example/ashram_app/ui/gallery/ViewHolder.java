@@ -52,8 +52,21 @@ public class ViewHolder extends RecyclerView.ViewHolder {
             exoPlayer.prepare(mediaSource);
             exoPlayer.setPlayWhenReady(false);
             fullscreenButton = itemView.findViewById(R.id.exo_fullscreen_icon);
-        } catch (Exception e) {
+//            fullscreenButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    exoPlayer.setPlayWhenReady(false);
+//                    Intent i = new Intent(ViewHolder., MainActivity.class);
+//                    startActivity(i);
+//                }
+//            });
 
+
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

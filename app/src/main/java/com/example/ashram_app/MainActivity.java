@@ -22,6 +22,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.ashram_app.AddVideo.AddVideoActivity;
 import com.example.ashram_app.AddYoutubeVideo.AddYoutubeVideo;
+import com.example.ashram_app.Login.LogActivity;
 import com.example.ashram_app.ui.meditation.AudioProperties;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
