@@ -55,18 +55,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //  FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_meditation, R.id.favoriteVideo, R.id.favoriteVideo)
                 .setDrawerLayout(drawer)
@@ -104,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     public void onClickQuite(MenuItem item) {
         FirebaseAuth.getInstance().signOut();
         Intent i = new Intent(MainActivity.this, LogActivity.class);
@@ -112,17 +101,14 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-
     public void onClickAddVideo(MenuItem item) {
         Intent i = new Intent(MainActivity.this, AddVideoActivity.class);
         startActivity(i);
-        //finish();
     }
 
     public void onClickAddVideoYoutube(MenuItem item) {
         Intent i = new Intent(MainActivity.this, AddYoutubeVideo.class);
         startActivity(i);
-        //finish();
     }
 
     public void Instagram(MenuItem item) {
@@ -157,8 +143,6 @@ public class MainActivity extends AppCompatActivity {
         intent_upload.setType("audio/*");
         intent_upload.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent_upload, 1);
-
-
     }
 
     @Override
