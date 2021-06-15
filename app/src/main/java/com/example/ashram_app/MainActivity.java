@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private MenuItem action_addVideo, addVideoYoutube, action_addAudio;
-    private MenuItem search;
     Uri uri;
     String songUrl;
     String songName;
@@ -62,16 +61,26 @@ public class MainActivity extends AppCompatActivity {
                 .setDrawerLayout(drawer)
                 .build();
 
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userid = user.getUid();
+
+        if (userid.equals(admin1UID)) {
+            navigationView = (NavigationView) findViewById(R.id.nav_view);
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.favoriteAudio).setVisible(false);
+            nav_Menu.findItem(R.id.favoriteVideo).setVisible(false);
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        search = menu.findItem(R.id.search_firebase);
+        //search = menu.findItem(R.id.search_firebase);
         action_addVideo = menu.findItem(R.id.action_addVideo);
         action_addAudio = menu.findItem(R.id.action_addAudio);
         addVideoYoutube = menu.findItem(R.id.addVideoYoutube);

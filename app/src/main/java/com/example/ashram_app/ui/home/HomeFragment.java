@@ -6,8 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +24,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -42,7 +39,6 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     ArrayList<DataSetList> arrayList;
     private MenuItem action_addVideo;
-    private MenuItem search;
     Context context;
     String URL;
     Query query;
@@ -88,13 +84,7 @@ public class HomeFragment extends Fragment {
     }
 
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        search = menu.findItem(R.id.search_firebase);
-        search.setVisible(false);
 
-    }
 
 
 
