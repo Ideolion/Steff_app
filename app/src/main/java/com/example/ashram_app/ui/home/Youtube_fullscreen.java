@@ -15,12 +15,18 @@ public class Youtube_fullscreen extends Activity {
         super.onStart();
         setContentView(R.layout.activity_youtube_fullscreen);
         Bundle arguments = getIntent().getExtras();
-        String url = arguments.get("URL").toString();
+
+        StringBuffer sb = new StringBuffer(arguments.get("URL").toString());
+        sb.delete(0,17 );
+        String url = sb.toString();
+
+
+
         WebView view=(WebView) findViewById(R.id.full_video);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         System.out.println(url);
-        String videoStr = "<html><body><br><iframe width=\"650\" height=\"300\" src=\"https://www.youtube.com/embed/ebhWmAxzux8\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
+        String videoStr = "<html><body><br><iframe width=\"650\" height=\"300\" src=\"https://www.youtube.com/embed/"+url+"\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
         view.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
