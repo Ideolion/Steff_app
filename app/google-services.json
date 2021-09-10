@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "884928367830",
-    "project_id": "ashram-app-ae2d9",
-    "storage_bucket": "ashram-app-ae2d9.appspot.com"
+    "project_number": "647925091715",
+    "project_id": "steffapp-c559d",
+    "storage_bucket": "steffapp-c559d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:884928367830:android:8ffb3afc41be4829e00d77",
+        "mobilesdk_app_id": "1:647925091715:android:c9ea7a88c7bb176697fab6",
         "android_client_info": {
-          "package_name": "com.example.ashram_app"
+          "package_name": "com.example.steff_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "884928367830-4d6dian2st0h9igju8vma65rg30uv42c.apps.googleusercontent.com",
+          "client_id": "647925091715-d0rki3hcd6abm6gbtit7n5tpt6mj70mo.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAxLAMuu-fzjVrLNf5d6ytD9zKRSpe4JGA"
+          "current_key": "AIzaSyBKPgT-VY-Zyvl7YHgvEnZnyuJQ1v3ooi8"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "884928367830-4d6dian2st0h9igju8vma65rg30uv42c.apps.googleusercontent.com",
+              "client_id": "647925091715-d0rki3hcd6abm6gbtit7n5tpt6mj70mo.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

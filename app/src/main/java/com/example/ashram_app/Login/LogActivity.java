@@ -120,7 +120,7 @@ public class LogActivity extends AppCompatActivity {
             @Override
             public void onError(FacebookException error) {
                 updateUI(null);
-                Toast.makeText(LogActivity.this, "Не удаось авторизоваться", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LogActivity.this, "Не удалось авторизоваться", Toast.LENGTH_SHORT).show();
             }
         });
     }
