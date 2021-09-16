@@ -64,16 +64,17 @@ public class Log_email_password extends AppCompatActivity {
         bBack = findViewById(R.id.bBack);
         textView3 = findViewById(R.id.textView3);
         mAuth = FirebaseAuth.getInstance();
-    }
+        }
 
     public void onClickSignUp(View view) {
-        if (!TextUtils.isEmpty(edLogin.getText().toString()) && !TextUtils.isEmpty(edPassword.getText().toString())) {
-            mAuth.createUserWithEmailAndPassword(edLogin.getText().toString(), edPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                if (!TextUtils.isEmpty(edLogin.getText().toString()) && !TextUtils.isEmpty(edPassword.getText().toString())) {
+            mAuth.createUserWithEmailAndPassword(edLogin.getText().toString(), edPassword.getText().toString())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        sendEmailVer();
                         FirebaseUser user = mAuth.getCurrentUser();
+                        sendEmailVer();
                         assert user != null;
                         if(user.isEmailVerified()){
                             Intent i = new Intent(Log_email_password.this, MainActivity.class);
@@ -84,7 +85,7 @@ public class Log_email_password extends AppCompatActivity {
                         }
                     } else {
                         Toast.makeText(Log_email_password.this, "Не удалось зарегистрироваться", Toast.LENGTH_SHORT).show();
-                    }
+                                            }
                 }
             });
         } else {

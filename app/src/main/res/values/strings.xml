@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ashram_app</string>
+    <string name="app_name">steff_app</string>
     <string name="text_Hi">Добро пожаловать!</string>
     <string name="todo">TODO</string>
     <string name="hint_password">Password</string>
@@ -15,6 +15,7 @@
     <string name="nav_header_subtitle">Твоя студия Йоги</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Настройки</string>
+
     <string name="facebook_app_id">378223983805166</string>
     <string name="fb_login_protocol_scheme">fb378223983805166</string>
 

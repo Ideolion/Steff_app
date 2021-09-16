@@ -39,7 +39,7 @@ public class LogActivity extends AppCompatActivity {
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
     private int RC_SIGN_IN = 1;
-    private Button btnFacebook;
+   // private Button btnFacebook;
     private static CallbackManager mCallbackManager;
     private FirebaseUser cUser;
 
@@ -102,48 +102,54 @@ public class LogActivity extends AppCompatActivity {
                     }
                 });
     }
-    public void btnFacebook(View view) {
-        mAuth = FirebaseAuth.getInstance();
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        btnFacebook = findViewById(R.id.btnFacebook);
-        mCallbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().logInWithReadPermissions(LogActivity.this, Arrays.asList("email", "public_profile"));
-        LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                handleFacebookAccessToken(loginResult.getAccessToken());
-            }
-            @Override
-            public void onCancel() {
-                updateUI(null);
-            }
-            @Override
-            public void onError(FacebookException error) {
-                updateUI(null);
-                Toast.makeText(LogActivity.this, "Не удалось авторизоваться", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    public void btnFacebook(View view) {
+//        mAuth = FirebaseAuth.getInstance();
+//     //   FacebookSdk.sdkInitialize(getApplicationContext());
+//        btnFacebook = findViewById(R.id.btnFacebook);
+//        mCallbackManager = CallbackManager.Factory.create();
+//        LoginManager.getInstance().logInWithReadPermissions(LogActivity.this, Arrays.asList("email", "public_profile"));
+//        LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+//            @Override
+//            public void onSuccess(LoginResult loginResult) {
+//                System.out.println("логин резалт хзчо");
+//
+//                handleFacebookAccessToken(loginResult.getAccessToken());
+//            }
+//            @Override
+//            public void onCancel() {
+//                System.out.println("кансель");
+//
+//                updateUI(null);
+//            }
+//            @Override
+//            public void onError(FacebookException error) {
+//                updateUI(null);
+//                Toast.makeText(LogActivity.this, "Не удалось авторизоваться", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
-    private void handleFacebookAccessToken(AccessToken token) {
-        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                            Toast.makeText(LogActivity.this, "Авторизация прошла успешно", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            updateUI(null);
-                            Toast.makeText(LogActivity.this, "Не удалось авторизоваться", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
+//    private void handleFacebookAccessToken(AccessToken token) {
+//        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+//        mAuth.signInWithCredential(credential)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            // Sign in success, update UI with the signed-in user's information
+//                            FirebaseUser user = mAuth.getCurrentUser();
+//                            updateUI(user);
+//                            Toast.makeText(LogActivity.this, "Авторизация прошла успешно", Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            // If sign in fails, display a message to the user.
+//                            System.out.println("atqc,er j,jchfkcz");
+//
+//                            updateUI(null);
+//                            Toast.makeText(LogActivity.this, "Не удалось авторизоваться", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RC_SIGN_IN) {

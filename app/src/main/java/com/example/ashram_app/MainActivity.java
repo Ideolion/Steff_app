@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void WhatsApp(MenuItem item) {
-        String url = "https://api.whatsapp.com/send?phone=" + "+79230155969";
+        String url = "https://api.whatsapp.com/send?phone=" + "";
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
