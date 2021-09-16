@@ -11,13 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ashram_app.MainActivity;
 import com.example.ashram_app.R;
-import com.facebook.AccessToken;
+
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -149,7 +144,9 @@ public class LogActivity extends AppCompatActivity {
 //                        }
 //                    }
 //                });
+
 //    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RC_SIGN_IN) {

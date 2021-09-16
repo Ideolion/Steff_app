@@ -47,9 +47,7 @@ public class YoutubeViewHolder extends RecyclerView.ViewHolder {
                 Intent intent = new Intent(view.getContext(),Youtube_fullscreen.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-               // view.getContext().startActivity(intent);
 
-                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             }
         });
 
