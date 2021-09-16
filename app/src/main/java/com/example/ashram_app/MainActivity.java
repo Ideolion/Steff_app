@@ -134,11 +134,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void WhatsApp(MenuItem item) {
-        String url = "https://api.whatsapp.com/send?phone=" + "";
-        Intent i = new Intent(Intent.ACTION_VIEW);
-        i.setData(Uri.parse(url));
-        startActivity(i);
+    public void MailUs(MenuItem item) {
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "app.ashram@gmail.com", null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Письмо от пользователя steff_app");
+        startActivity(Intent.createChooser(emailIntent, "Написать письмо..."));
 
 
     }
@@ -215,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
 
     /*загрузка аудио в фаербейс*/
     private void uploadDetailsToDatabase() {
-        Toast.makeText(MainActivity.this, "Мы дошли до фаербейса", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MainActivity.this, "Мы дошли до фаербейса", Toast.LENGTH_SHORT).show();
 
         AudioProperties songObj = new AudioProperties(songName, songUrl);
         FirebaseFirestore db = FirebaseFirestore.getInstance();

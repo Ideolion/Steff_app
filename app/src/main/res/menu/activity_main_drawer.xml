@@ -35,9 +35,9 @@ android:onClick="Instagram"
             android:title="@string/instagram" />
         <item
             android:id="@+id/mm_7"
-            android:onClick="WhatsApp"
+            android:onClick="MailUs"
 
-            android:title="@string/whatsapp" />
+            android:title="Mail us" />
     </group>
 
 
