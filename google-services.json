@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "647925091715",
+    "project_id": "steffapp-c559d",
+    "storage_bucket": "steffapp-c559d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647925091715:android:c9ea7a88c7bb176697fab6",
+        "android_client_info": {
+          "package_name": "com.example.steff_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647925091715-rqdnlalpuqcf35g2srrcriq5mgfe7jv5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.steff_app",
+            "certificate_hash": "c0ec289221e80f019b72a45ea74c08f1145a28ac"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKPgT-VY-Zyvl7YHgvEnZnyuJQ1v3ooi8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

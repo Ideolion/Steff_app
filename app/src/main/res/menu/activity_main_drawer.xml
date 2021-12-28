@@ -31,7 +31,7 @@
     <group android:id="@+id/andOther">
         <item
             android:id="@+id/mm_6"
-android:onClick="Instagram"
+            android:onClick="Instagram"
             android:title="@string/instagram" />
         <item
             android:id="@+id/mm_7"

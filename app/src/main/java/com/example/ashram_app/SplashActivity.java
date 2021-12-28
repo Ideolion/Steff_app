@@ -13,6 +13,7 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
+        makeFullScreen();
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -27,4 +28,9 @@ public class SplashActivity extends Activity {
 
     }
 
-   }
+    private void makeFullScreen() {
+
+
+    }
+
+}

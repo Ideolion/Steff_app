@@ -142,99 +142,99 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void onClickAddAudio(MenuItem item) {
-        pickSong();
-    }
+//    public void onClickAddAudio(MenuItem item) {
+//        pickSong();
+//    }
+//
+//    private void pickSong() {
+//        Intent intent_upload = new Intent();
+//        intent_upload.setType("audio/*");
+//        intent_upload.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(intent_upload, 1);
+//    }
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+//        if (requestCode == 1) {
+//            if (resultCode == RESULT_OK) {
+//                uri = data.getData();
+//                Cursor mcursor = getApplicationContext().getContentResolver()
+//                        .query(uri, null, null, null, null);
+//
+//                int indexedname = mcursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+//                mcursor.moveToFirst();
+//                songName = mcursor.getString(indexedname);
+//                mcursor.close();
+//                uploadSongToFirebaseStorage();
+//            }
+//        }
+//        super.onActivityResult(requestCode, resultCode, data);
+//    }
 
-    private void pickSong() {
-        Intent intent_upload = new Intent();
-        intent_upload.setType("audio/*");
-        intent_upload.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent_upload, 1);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                uri = data.getData();
-                Cursor mcursor = getApplicationContext().getContentResolver()
-                        .query(uri, null, null, null, null);
-
-                int indexedname = mcursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                mcursor.moveToFirst();
-                songName = mcursor.getString(indexedname);
-                mcursor.close();
-                uploadSongToFirebaseStorage();
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    /*загрузка аудио в облачное хранилище*/
-    private void uploadSongToFirebaseStorage() {
-
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference()
-                .child("Songs").child(uri.getLastPathSegment());
-
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.show();
-
-        storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-
-                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                while (!uriTask.isComplete()) ;
-                Uri urlSong = uriTask.getResult();
-                songUrl = urlSong.toString();
-
-                uploadDetailsToDatabase();
-                progressDialog.dismiss();
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                double progres = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                int currentProgress = (int) progres;
-                progressDialog.setMessage("Uploaded: " + currentProgress + "%");
-            }
-        });
-
-
-    }
-
-    /*загрузка аудио в фаербейс*/
-    private void uploadDetailsToDatabase() {
-        //Toast.makeText(MainActivity.this, "Мы дошли до фаербейса", Toast.LENGTH_SHORT).show();
-
-        AudioProperties songObj = new AudioProperties(songName, songUrl);
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Audio")
-                .add(songObj)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(getApplicationContext(), "Данные загружены", Toast.LENGTH_SHORT).show();
-
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "Ошибка загрузки", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-    }
+//    /*загрузка аудио в облачное хранилище*/
+//    private void uploadSongToFirebaseStorage() {
+//
+//        StorageReference storageReference = FirebaseStorage.getInstance().getReference()
+//                .child("Songs").child(uri.getLastPathSegment());
+//
+//        final ProgressDialog progressDialog = new ProgressDialog(this);
+//        progressDialog.show();
+//
+//        storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//
+//
+//                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+//                while (!uriTask.isComplete()) ;
+//                Uri urlSong = uriTask.getResult();
+//                songUrl = urlSong.toString();
+//
+//                uploadDetailsToDatabase();
+//                progressDialog.dismiss();
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(MainActivity.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+//                progressDialog.dismiss();
+//            }
+//        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+//                double progres = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+//                int currentProgress = (int) progres;
+//                progressDialog.setMessage("Uploaded: " + currentProgress + "%");
+//            }
+//        });
+//
+//
+//    }
+//
+//    /*загрузка аудио в фаербейс*/
+//    private void uploadDetailsToDatabase() {
+//        //Toast.makeText(MainActivity.this, "Мы дошли до фаербейса", Toast.LENGTH_SHORT).show();
+//
+//        AudioProperties songObj = new AudioProperties(songName, songUrl);
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        db.collection("Audio")
+//                .add(songObj)
+//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Toast.makeText(getApplicationContext(), "Данные загружены", Toast.LENGTH_SHORT).show();
+//
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(getApplicationContext(), "Ошибка загрузки", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//
+//    }
 
 
 }
